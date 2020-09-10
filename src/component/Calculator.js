@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 //FAULTS:
-//1-.CSS DESIGN
 //2-.DIVISION BY ZERO
 //3-.EXTRA DECIMAL IN DESIGN
 //4-.EVAL() WARNING
@@ -15,7 +14,7 @@ const Calculator = ({ initialValue }) => {
 
     //Create event
     const handleEvent = (event) => {
-        debugger;
+        //debugger;
         
         switch (event.target.value) {
             
@@ -34,10 +33,12 @@ const Calculator = ({ initialValue }) => {
                 break;
 
             case '=':
-                setValue(eval(resultValue + operatorValue + newValue));
-                setOperator("");
-                //setCurrentValue("0");
-                setNewValue("0");
+                if (operatorValue !== "") {
+                    setValue(eval(resultValue + operatorValue + newValue));
+                    setOperator("");
+                    //setCurrentValue("0");
+                    setNewValue("0");
+                }
                 break;
         
             default:
@@ -59,76 +60,79 @@ const Calculator = ({ initialValue }) => {
     }
 
     return (
-        <div id='backgroundCalculator'>
-            <div id='inputNumber'>{ (operatorValue !== "" ? newValue : resultValue) }</div>
-            <div id='containerBtn'>
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <input type='button' className='actionBtn operationBtn' value='+' onClick={ handleEvent }></input>
-                            </td>
-                            <td>
-                                <input type='button' className='actionBtn operationBtn' value='-' onClick={ handleEvent }></input>
-                            </td>
-                            <td>
-                                <input type='button' className='actionBtn operationBtn' value='*' onClick={ handleEvent }></input>
-                            </td>
-                            <td>
-                                <input type='button' className='actionBtn operationBtn' value='/' onClick={ handleEvent }></input>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type='button' className='actionBtn' value='7' onClick={ handleEvent }></input>
-                            </td>
-                            <td>
-                                <input type='button' className='actionBtn' value='8' onClick={ handleEvent }></input>
-                            </td>
-                            <td>
-                                <input type='button' className='actionBtn' value='9' onClick={ handleEvent }></input>
-                            </td>
-                            <td rowSpan="4">
-                                <input type='button' className='actionBtn' id='equalBtn' value='=' onClick={ handleEvent }></input>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type='button' className='actionBtn' value='4' onClick={ handleEvent }></input>
-                            </td>
-                            <td>
-                                <input type='button' className='actionBtn' value='5' onClick={ handleEvent }></input>
-                            </td>
-                            <td>
-                                <input type='button' className='actionBtn' value='6' onClick={ handleEvent }></input>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type='button' className='actionBtn' value='1' onClick={ handleEvent }></input>
-                            </td>
-                            <td>
-                                <input type='button' className='actionBtn' value='2' onClick={ handleEvent }></input>
-                            </td>
-                            <td>
-                                <input type='button' className='actionBtn' value='3' onClick={ handleEvent }></input>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type='button' className='actionBtn' value='0' onClick={ handleEvent }></input>
-                            </td>
-                            <td>
-                                <input type='button' className='actionBtn' value='.' onClick={ handleEvent }></input>
-                            </td>
-                            <td>
-                                <input type='button' className='actionBtn' id='acBtn' value='AC' onClick={ handleEvent }></input>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        <div>
+            <div id='header'>
+                Calculator
             </div>
-        </div>
+            <div id='backgroundCalculator'>
+                <div id='inputNumber'>
+                    <div>
+                        { (operatorValue !== "" ? newValue : resultValue) }
+                    </div>
+                </div>
+                <div id='containerBtn'>
+                    <div className='actionColumn'>
+                        <div className='actionRow'>
+                            <button className='operatorBtn' value='+' onClick={ handleEvent }>+</button>
+                        </div>
+                        <div className='actionRow'>
+                            <button value='7' onClick={ handleEvent }>7</button>
+                        </div>
+                        <div className='actionRow'>
+                            <button value='4' onClick={ handleEvent }>4</button>
+                        </div>
+                        <div className='actionRow'>
+                            <button value='1' onClick={ handleEvent }>1</button>
+                        </div>
+                        <div className='actionRow'>
+                            <button value='0' onClick={ handleEvent }>0</button>
+                        </div>
+                    </div>
+                    <div className='actionColumn'>
+                        <div className='actionRow'>
+                            <button className='operatorBtn' value='-' onClick={ handleEvent }>-</button>
+                        </div>
+                        <div className='actionRow'>
+                            <button value='8' onClick={ handleEvent }>8</button>
+                        </div>
+                        <div className='actionRow'>
+                            <button value='5' onClick={ handleEvent }>5</button>
+                        </div>
+                        <div className='actionRow'>
+                            <button value='2' onClick={ handleEvent }>2</button>
+                        </div>
+                        <div className='actionRow'>
+                            <button value='.' onClick={ handleEvent }>.</button>
+                        </div>
+                    </div>
+                    <div className='actionColumn'>
+                        <div className='actionRow'>
+                            <button className='operatorBtn' value='*' onClick={ handleEvent }>x</button>
+                        </div>
+                        <div className='actionRow'>
+                            <button value='9' onClick={ handleEvent }>9</button>
+                        </div>
+                        <div className='actionRow'>
+                            <button value='6' onClick={ handleEvent }>6</button>
+                        </div>
+                        <div className='actionRow'>
+                            <button value='3' onClick={ handleEvent }>3</button>
+                        </div>
+                        <div className='actionRow'>
+                            <button value='AC' id='rowAC' onClick={ handleEvent }>AC</button>
+                        </div>
+                    </div>
+                    <div className='actionColumn'>
+                        <div className='actionRow'>
+                            <button className='operatorBtn' value='/' onClick={ handleEvent }>÷</button>
+                        </div>
+                        <div className='actionRowEquals'>
+                            <button value='=' onClick={ handleEvent }>=</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>    
     )
 }
 
