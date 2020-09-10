@@ -1,25 +1,25 @@
 body {
-    background:gray;
     color: white;
-    font-family: Arial, Helvetica, sans-serif; 
+    background: #0A0E11;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center; 
+    margin: 0px;
 }
 
-table {
-    width: 100%;
-}
-
-table tr {
-    height: 50px;
-}
-
-table td {
-    width: 25%;
+#header {
+    padding: 20px;
+    background: #E04E4E;
+    margin-bottom: 100px;
+    font-size: 30px;
+    font-weight: bold;
 }
 
 #backgroundCalculator {
     width: 250px;
     background: white;
     text-align: center;
+    border: 1px solid #D1D1D2;
+    display: inline-block;
 }
 
 #inputNumber {
@@ -27,31 +27,84 @@ table td {
     background: black;
     height: 50px;
     text-align: right;
-    font-size: 45px;
+    display: flex;
+}
+
+#inputNumber div {
+    font-size: 28px;
+    margin: 10px;
+    width: 100%;
 }
 
 #containerBtn {
     width: 100%;
+    display: flex;
+    flex-direction: row;
+    color: black;
 }
 
-.actionBtn {
-    width: 50px;
+.actionColumn {
+    width: 25%;
+}
+
+.actionRow {
+    height: 50px;
+    vertical-align: middle;
+}
+
+.actionRow button {
+    background: white;
+    border: 1px solid #D1D1D2;
+    border-radius: 3px;
+    font-size: 18px;
     height: 40px;
-    font-size: 15px;
-}
-
-#equalBtn {
-    background: #3c6fd6;
-    color: white;
-    height: 196px;
+    margin: 5px;
     width: 50px;
 }
 
-#acBtn {
-    background: #de4116;
+.actionRow button:hover {
+    background: #D1D1D2;
+    cursor: pointer;
+    /* outline: none; */
+}
+
+.actionRow button:focus {
+    outline: none;
+}
+
+#rowAC {
+    background: #E04E4E;
     color: white;
 }
 
-.operationBtn {
-    color: #3c6fd6;
+#rowAC:hover {
+    background: #D1D1D2;
+}
+
+.actionRowEquals {
+    height: 200px;
+}
+
+.actionRowEquals button {
+    background: #007FD7;
+    border: 1px solid #D1D1D2;
+    border-radius: 3px;
+    color: white;
+    font-size: 18px;
+    height: 190px;
+    margin: 5px;
+    width: 50px;
+}
+
+.actionRowEquals button:hover {
+    background: #D1D1D2;
+    cursor: pointer;
+}
+
+.actionRowEquals button:focus {
+    outline: none;
+}
+
+.operatorBtn {
+    color: #007FD7;
 }
