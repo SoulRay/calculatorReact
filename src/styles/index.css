@@ -28,12 +28,14 @@ body {
     height: 50px;
     text-align: right;
     display: flex;
+    align-items: flex-end;
 }
 
 #inputNumber div {
-    font-size: 28px;
+    font-size: 26px;
     margin: 10px;
     width: 100%;
+    overflow-y: auto;
 }
 
 #containerBtn {
@@ -65,7 +67,6 @@ body {
 .actionRow button:hover {
     background: #D1D1D2;
     cursor: pointer;
-    /* outline: none; */
 }
 
 .actionRow button:focus {

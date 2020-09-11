@@ -1,64 +1,98 @@
 import React, {useState} from 'react';
-//FAULTS:
-//2-.DIVISION BY ZERO
-//3-.EXTRA DECIMAL IN DESIGN
-//4-.EVAL() WARNING
-
 //Component Calculator
 const Calculator = ({ initialValue }) => {
     //Import Hook useState
-    const [resultValue, setValue] = useState(initialValue);
-    //const [currentValue, setCurrentValue] = useState("0");
-    const [newValue, setNewValue] = useState("0");
-    const [operatorValue, setOperator] = useState("");
+    const [resultValue, setResultValue] = useState(initialValue);
+    const [firstValue, setFirstValue] = useState(initialValue);
+    const [secondValue, setSecondValue] = useState("");
+    const [operatorValue, setOperatorValue] = useState("");
 
-    //Create event
+    //Function for calculate result
+    const calculateResult = () => {
+        if (operatorValue === "+") {
+            setFirstValue((Number(firstValue) + Number(secondValue)).toString());
+            setResultValue((Number(firstValue) + Number(secondValue)).toString());
+        } else if (operatorValue === "-") {
+            setFirstValue((Number(firstValue) - Number(secondValue)).toString());
+            setResultValue((Number(firstValue) - Number(secondValue)).toString());
+        } else if (operatorValue === "*") {
+            setFirstValue((Number(firstValue) * Number(secondValue)).toString());
+            setResultValue((Number(firstValue) * Number(secondValue)).toString());
+        } else if (operatorValue === "/") {
+            setFirstValue((Number(firstValue) / Number(secondValue)).toString());
+            setResultValue((Number(firstValue) / Number(secondValue)).toString());
+        }
+    }
+
+    //Function for calculator actions button
     const handleEvent = (event) => {
-        //debugger;
-        
         switch (event.target.value) {
-            
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+            case '.':
+                let resultString = "";
+                if (operatorValue !== "" && firstValue !== "") {
+                    if (secondValue.indexOf(".") > 0 && event.target.value === ".") {
+                        return;
+                    }
+                    resultString = (secondValue === "" && event.target.value === "." ? "0" : secondValue) + event.target.value;
+                    setSecondValue(resultString);
+                    setResultValue(resultString);
+                } else {
+                    if (firstValue.indexOf(".") > 0 && event.target.value === ".") {
+                        return;
+                    }
+                    resultString = (resultValue === "0" && event.target.value !== "." ? "" : resultValue) + event.target.value;
+                    setFirstValue(resultString);
+                    setResultValue(resultString);
+                }
+                break;
+
             case '+':
             case '-':
             case '*':
             case '/':
-                setOperator(event.target.value);
+                setOperatorValue(event.target.value);
+                if (secondValue !== "") {
+                    calculateResult();
+                    setSecondValue("");
+                }
                 break;
 
             case 'AC':
-                setValue("0");
-                setOperator("");
-                //setCurrentValue("0");
-                setNewValue("0");
+            // case 'Backspace':
+                setResultValue("0");
+                setOperatorValue("");
+                setFirstValue("");
+                setSecondValue("");
                 break;
 
             case '=':
-                if (operatorValue !== "") {
-                    setValue(eval(resultValue + operatorValue + newValue));
-                    setOperator("");
-                    //setCurrentValue("0");
-                    setNewValue("0");
+            // case 'Enter':
+                if (operatorValue !== "" && secondValue !== "") {
+                    calculateResult();
+                    setOperatorValue("");
+                    setSecondValue("");
                 }
                 break;
         
             default:
-                if (operatorValue !== "") {
-                    if (newValue.indexOf(".") > 0 && event.target.value === ".") {
-                        return;
-                    }
-                    setNewValue((newValue === "0" && event.target.value !== "." ? "" : newValue) + event.target.value);
-                } else {
-                    if (resultValue.indexOf(".") > 0 && event.target.value === ".") {
-                        return;
-                    }
-                    setValue((resultValue === "0" && event.target.value !== "." ? "" : resultValue) + event.target.value);
-                }
-                //setCurrentValue((currentValue === "0" ? "" : currentValue) + event.target.value);
-
                 break;
         }
     }
 
+    // document.addEventListener("keydown", (e) => {
+    //     handleEvent(e.key);
+    // });
+    //Calculator Design
     return (
         <div>
             <div id='header'>
@@ -67,7 +101,7 @@ const Calculator = ({ initialValue }) => {
             <div id='backgroundCalculator'>
                 <div id='inputNumber'>
                     <div>
-                        { (operatorValue !== "" ? newValue : resultValue) }
+                        { Number(resultValue) }
                     </div>
                 </div>
                 <div id='containerBtn'>
