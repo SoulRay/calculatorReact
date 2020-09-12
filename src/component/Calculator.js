@@ -1,4 +1,7 @@
 import React, {useState} from 'react';
+//Import Hook for dynamic CSS 
+import {useCss} from 'react-use';
+
 //Component Calculator
 const Calculator = ({ initialValue }) => {
     //Import Hook useState
@@ -6,21 +9,33 @@ const Calculator = ({ initialValue }) => {
     const [firstValue, setFirstValue] = useState(initialValue);
     const [secondValue, setSecondValue] = useState("");
     const [operatorValue, setOperatorValue] = useState("");
+    const [fontSize, setFontSize] = useState("26px");
+
+    //Hook useCss for set dynamic calculator display
+    const displayFont = useCss({
+        'font-size': fontSize,
+        margin: '10px',
+        width: '100%',
+    });
 
     //Function for calculate result
     const calculateResult = () => {
         if (operatorValue === "+") {
             setFirstValue((Number(firstValue) + Number(secondValue)).toString());
             setResultValue((Number(firstValue) + Number(secondValue)).toString());
+            modifyFont(Number(firstValue) + Number(secondValue));
         } else if (operatorValue === "-") {
             setFirstValue((Number(firstValue) - Number(secondValue)).toString());
             setResultValue((Number(firstValue) - Number(secondValue)).toString());
+            modifyFont(Number(firstValue) - Number(secondValue));
         } else if (operatorValue === "*") {
             setFirstValue((Number(firstValue) * Number(secondValue)).toString());
             setResultValue((Number(firstValue) * Number(secondValue)).toString());
+            modifyFont(Number(firstValue) * Number(secondValue));
         } else if (operatorValue === "/") {
             setFirstValue((Number(firstValue) / Number(secondValue)).toString());
             setResultValue((Number(firstValue) / Number(secondValue)).toString());
+            modifyFont(Number(firstValue) / Number(secondValue));
         }
     }
 
@@ -44,6 +59,7 @@ const Calculator = ({ initialValue }) => {
                         return;
                     }
                     resultString = (secondValue === "" && event.target.value === "." ? "0" : secondValue) + event.target.value;
+                    modifyFont(resultString);
                     setSecondValue(resultString);
                     setResultValue(resultString);
                 } else {
@@ -51,6 +67,7 @@ const Calculator = ({ initialValue }) => {
                         return;
                     }
                     resultString = (resultValue === "0" && event.target.value !== "." ? "" : resultValue) + event.target.value;
+                    modifyFont(resultString);
                     setFirstValue(resultString);
                     setResultValue(resultString);
                 }
@@ -68,15 +85,14 @@ const Calculator = ({ initialValue }) => {
                 break;
 
             case 'AC':
-            // case 'Backspace':
                 setResultValue("0");
                 setOperatorValue("");
                 setFirstValue("");
                 setSecondValue("");
+                setFontSize("26px");
                 break;
 
             case '=':
-            // case 'Enter':
                 if (operatorValue !== "" && secondValue !== "") {
                     calculateResult();
                     setOperatorValue("");
@@ -89,9 +105,15 @@ const Calculator = ({ initialValue }) => {
         }
     }
 
-    // document.addEventListener("keydown", (e) => {
-    //     handleEvent(e.key);
-    // });
+    //Calculate length of number and set a new font size
+    const modifyFont = (valueToCheck) => {
+        if (Number(valueToCheck).toString().length >= 12) {
+            setFontSize("17px");
+        } else {
+            setFontSize("26px");
+        }
+    }
+    
     //Calculator Design
     return (
         <div>
@@ -100,8 +122,8 @@ const Calculator = ({ initialValue }) => {
             </div>
             <div id='backgroundCalculator'>
                 <div id='inputNumber'>
-                    <div>
-                        { Number(resultValue) }
+                    <div className={displayFont} >
+                        { isFinite(Number(resultValue)) === true ? Number(resultValue) : "Error" }
                     </div>
                 </div>
                 <div id='containerBtn'>
