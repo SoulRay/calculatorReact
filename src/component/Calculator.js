@@ -4,11 +4,13 @@ import {useCss} from 'react-use';
 
 //Component Calculator
 const Calculator = ({ initialValue }) => {
-    //Import Hook useState
+    //Declare Hook useState
     const [resultValue, setResultValue] = useState(initialValue);
     const [firstValue, setFirstValue] = useState(initialValue);
     const [secondValue, setSecondValue] = useState("");
     const [operatorValue, setOperatorValue] = useState("");
+    const [isEqualOperator, setIsEqualOperator] = useState(false);
+    //Declare Hook useCss
     const [fontSize, setFontSize] = useState("26px");
 
     //Hook useCss for set dynamic calculator display
@@ -54,6 +56,16 @@ const Calculator = ({ initialValue }) => {
             case '9':
             case '.':
                 let resultString = "";
+                if (isEqualOperator === true) {
+                    resultString = event.target.value;
+                    modifyFont(resultString);
+                    setFirstValue(resultString);
+                    setResultValue(resultString);
+                    setSecondValue("");
+                    setOperatorValue("");
+                    return;
+                }
+
                 if (operatorValue !== "" && firstValue !== "") {
                     if (secondValue.indexOf(".") > 0 && event.target.value === ".") {
                         return;
@@ -71,6 +83,7 @@ const Calculator = ({ initialValue }) => {
                     setFirstValue(resultString);
                     setResultValue(resultString);
                 }
+                setIsEqualOperator(false);
                 break;
 
             case '+':
@@ -78,10 +91,17 @@ const Calculator = ({ initialValue }) => {
             case '*':
             case '/':
                 setOperatorValue(event.target.value);
+                setIsEqualOperator(false);
+                if (isEqualOperator === true) {
+                    setSecondValue("");
+                    return;
+                }
+
                 if (secondValue !== "") {
                     calculateResult();
                     setSecondValue("");
                 }
+                
                 break;
 
             case 'AC':
@@ -89,14 +109,14 @@ const Calculator = ({ initialValue }) => {
                 setOperatorValue("");
                 setFirstValue("");
                 setSecondValue("");
+                setIsEqualOperator(false);
                 setFontSize("26px");
                 break;
 
             case '=':
+                setIsEqualOperator(true);
                 if (operatorValue !== "" && secondValue !== "") {
                     calculateResult();
-                    setOperatorValue("");
-                    setSecondValue("");
                 }
                 break;
         
